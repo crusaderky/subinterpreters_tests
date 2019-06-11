@@ -10,12 +10,13 @@ from concurrent.futures import ThreadPoolExecutor, Future
 
 class InterpreterPoolExecutor(ThreadPoolExecutor):
     """An :class:`~concurrent.futures.Executor` subclass that executes calls
-    asynchronously using a pool of at most max_workers* interpreters. If *max_workers*
+    asynchronously using a pool of at most *max_workers* interpreters. If *max_workers*
     is None or not given, it will default to the number of processors on the machine. If
     *max_workers* is lower or equal to 0, then a :class:`ValueError` will be raised.
 
     *thread_name_prefix* is an optional argument to allow users to control the
-    threading.Thread names for minder threads created by the pool for easier debugging.
+    :class:`threading.Thread` names for minder threads created by the pool for easier
+    debugging.
 
     *initializer* is an optional callable that is called at the start of each worker
     interpreter; *initargs* is a tuple of arguments passed to the initializer. Should
