@@ -82,11 +82,15 @@ class Body:
 
 
 def nbody(bodies: List[Body], dt: float) -> List[Body]:
-    """Have N bodies interact with each other, each applying gravitational force for
+    """Have N bodies interact with each other, each applying gravitational force to
     each other for dt seconds and thus changing each other's position and velocity.
 
     :param bodies:
         Initial state of the bodies
+    :param float dt:
+        Time increment (in seconds). It should be set small enough that any change in
+        velocity and position occurring during it should not materially impact the
+        next iteration.
     :returns:
         New state of the bodies after dt. The initial state is left unaltered.
     """
