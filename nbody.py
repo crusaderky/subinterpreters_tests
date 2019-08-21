@@ -45,6 +45,9 @@ class Vector:
     def __truediv__(self, other: float) -> Vector:
         return Vector(self.x / other, self.y / other, self.z / other)
 
+    def __repr__(self) -> str:
+        return f"({self.x}, {self.y}, {self.z})"
+
     @property
     def lensq(self) -> float:
         return self.x ** 2 + self.y ** 2 + self.z ** 2
@@ -120,7 +123,8 @@ def rand_bodies(n: int) -> List[Body]:
 
 if __name__ == "__main__":
     bodies = rand_bodies(2)
-    print(bodies)
+    print("\n".join(str(b) for b in bodies))
     for _ in range(5):
-        bodies = nbody(bodies, 0.1)
-        print(bodies)
+        bodies = nbody(bodies, 1)
+        print()
+        print("\n".join(str(b) for b in bodies))
