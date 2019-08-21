@@ -22,22 +22,7 @@ public:
 
 class NBody {
 public:
-    NBody(size_t n): n(n) {
-        // Align for AVX512
-        size_t stride = n % 8 == 0 ? n : n + 8 - n % 8;
-        buf = new double[stride * 10 + 7];
-        double * buf0 = ((size_t)buf % 8 == 0) ? buf : (double *)(((size_t)buf + 8 - (size_t)buf % 8));
-        mass = buf0 + stride * 0;
-        sx = buf0 + stride * 1;
-        sy = buf0 + stride * 2;
-        sz = buf0 + stride * 3;
-        vx = buf0 + stride * 4;
-        vy = buf0 + stride * 5;
-        vz = buf0 + stride * 6;
-        fx = buf0 + stride * 7;
-        fy = buf0 + stride * 8;
-        fz = buf0 + stride * 9;
-    };
+    NBody(size_t n);
 
     ~NBody() {
         delete[] buf;
@@ -51,25 +36,38 @@ public:
     void set(size_t i, Body& b) {
         assert (i < n);
         mass[i] = b.mass;
-        sx[i] = b.sx;
-        sy[i] = b.sy;
-        sz[i] = b.sz;
-        vx[i] = b.vx;
-        vy[i] = b.vy;
-        vz[i] = b.vz;
+        sx[i] = b.sx; sy[i] = b.sy; sz[i] = b.sz;
+        vx[i] = b.vx; vy[i] = b.vy; vz[i] = b.vz;
     };
 
     void move(double dt);
 
+private:
     size_t n;
+    double *buf;
     double *mass;
     double *sx, *sy, *sz;
     double *vx, *vy, *vz;
-
-private:
     double *fx, *fy, *fz;
-    double *buf;
 };
+
+
+NBody::NBody(size_t n): n(n) {
+    // Align for AVX512
+    size_t stride = n % 8 == 0 ? n : n + 8 - n % 8;
+    buf = new double[stride * 10 + 7];
+    double * buf0 = ((size_t)buf % 8 == 0) ? buf : (double *)(((size_t)buf + 8 - (size_t)buf % 8));
+    mass = buf0 + stride * 0;
+    sx = buf0 + stride * 1;
+    sy = buf0 + stride * 2;
+    sz = buf0 + stride * 3;
+    vx = buf0 + stride * 4;
+    vy = buf0 + stride * 5;
+    vz = buf0 + stride * 6;
+    fx = buf0 + stride * 7;
+    fy = buf0 + stride * 8;
+    fz = buf0 + stride * 9;
+}
 
 
 void NBody::move(double dt) {
