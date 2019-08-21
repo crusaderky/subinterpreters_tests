@@ -73,12 +73,12 @@ class Body:
 
     def move(self, force: Vector, dt: float) -> Body:
         """Apply force for dt seconds to this body.
-        Return new body with updated velocity and position.
+        Return new body with updated position and velocity.
         This object is left unchanged.
         """
-        velocity = self.velocity + force / self.mass * dt
-        position = self.position + velocity * dt
-        return Body(self.mass, position, velocity)
+        dv = force / self.mass * dt
+        ds = (self.velocity + dv / 2) * dt
+        return Body(self.mass, self.position + ds, self.velocity + dv)
 
 
 def nbody(bodies: List[Body], dt: float) -> List[Body]:
