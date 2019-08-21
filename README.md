@@ -20,8 +20,9 @@ for MacOSX. It does NOT work on Python shipped by Anaconda as the
 
 Notes and known issues
 ======================
-- As of CPython 3.8.0b1, sub-interpreters don't release the GIL yet - which is the
-  whole point of the functionality.
+- As of CPython 3.8.0b1, sub-interpreters share the same GIL - which is the
+  whole point of the functionality being implemented. See
+  [multi-core-python#34](https://github.com/ericsnowcurrently/multi-core-python/issues/34).
 - The overhead for creating and destroying sub-interpreters is comparable with 
   creating sub-processes with the ``spawn``
   [start method](https://docs.python.org/3.7/library/multiprocessing.html#contexts-and-start-methods),
@@ -30,7 +31,6 @@ Notes and known issues
   from that described in PEP 554. This is likely to further change multiple times in
   the future, and this code might completely break at the next patch to CPython.
 - Can't unpickle objects defined in the ``__main__`` module inside a sub-interpreter.
-  This is likely working as intended.
 - Missing optimizations for [PEP 574](https://www.python.org/dev/peps/pep-0574/)
   buffers, as the capability to send/receive raw buffers hasn't been implemented yet
   in CPython 3.8.0b1.
